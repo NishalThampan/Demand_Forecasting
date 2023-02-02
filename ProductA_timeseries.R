@@ -56,15 +56,6 @@ forecast <- data.frame(forecast(fit_arima_lavender, h = 14))
 forecast <- forecast$Point.Forecast
 forecast <- data.frame(forecast)
 
-
-install.packages("writexl")
-
-library(writexl)
-
-install.packages("openxlsx")
-library(openxlsx)
-write.xlsx(forecast,file="forecast.xlsx")
-
 mape(f_testing,forecast)
 
 f_testing
