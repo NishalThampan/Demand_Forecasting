@@ -1,16 +1,20 @@
-# ARIMA Time Series Forecasting 
-This repository contains an implementation of ARIMA time series forecasting for the sales of Product A. The implementation is done in R and uses the following packages:
+# Demand Forecasting for E-Commerce
 
-- 'tidyverse'
-- 'forecast'
-- 'evobiR'
-- 'tseries'
-- 'urca'
-- 'TSstudio'
-- 'Metrics'
+This repository contains implementations of various demand forecasting models that can be used for an E-Commerce environment. The models used are ARIMA time series forecasting and Regression using Digital Marketing KPIS. The implementation is done in R. 
+
+## ARIMA Time Series Forecasting 
+The file for ARIMA time series forecasting is 'ProductA_timeseries.R'. The implementation uses the following packages:
+
+- **'tidyverse'**
+- **'forecast'**
+- **'evobiR'**
+- **'tseries'**
+- **'urca'**
+- **'TSstudio'**
+- **'Metrics'**
 
 ###### Dataset
-The sales data of Product A is stored in the file ProductA.csv. The dataset contains the sales quantity of Product A.
+The sales data of Product A is stored in the file ProductA.csv. The dataset contains the sales quantity of Product A. The data can be extracted from the Google Analytics dashboard of the corresponding E-Commerce website. 
 
 ###### Data Preprocessing
 - The dataset is split into training and testing sets with a ratio of 80:20.
