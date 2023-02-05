@@ -6,57 +6,62 @@ library(evobiR)
 library(tseries)
 library(urca)
 library(TSstudio)
+library(Metrics)
 
-setwd("C:/Users/user/Desktop/OneDrive - The University of Nottingham/Dissertation/TAOS/Data/csv_files")
+setwd("D:/Demand_Forecasting")
 
-lavender_seeds <- read.csv("lavender_seeds_quantity.csv") # Read sales quantity from csv file
+productA <- read.csv("ProductA.csv") # Read sales quantity from csv file
 
-lavender_seeds_ts <- ts(lavender_seeds$Quantity, start = 1, frequency = 7)
-autoplot(lavender_seeds_ts) + ggtitle("lavender seeds sales") + labs(x = 'time', y = 'Sales')
+split_point <- floor(0.8 * nrow(productA))
+productA_training <- productA[1:split_point,]
+productA_testing <- productA[(split_point + 1):nrow(productA), ]
 
-lavender_seeds_clean <- SlidingWindow("mean",lavender_seeds$Quantity,3,1)
-lavender_seeds_clean <- lavender_seeds_clean[1:170]
-lavender_seeds_ts <- ts(lavender_seeds_clean, start = 1, frequency = 7)
+productA_ts <- ts(productA_training$Quantity, start = 1, frequency = 7)
+autoplot(productA_ts) + ggtitle("Product A sales") + labs(x = 'time', y = 'Sales')
 
+productA_clean <- SlidingWindow("mean",productA_training$Quantity,3,1)
+productA_ts <- ts(productA_clean, start = 1, frequency = 7)
 
-autoplot(lavender_seeds_ts) + ggtitle("lavender seeds sales") + labs(x = 'time', y = 'Sales')
+autoplot(productA_ts) + ggtitle("Product A sales") + labs(x = 'time', y = 'Sales')
 
-ggAcf(lavender_seeds_ts) + ggtitle("ACF of sales")
-ggPacf(lavender_seeds_ts) + ggtitle("PACF of sales")
+ggAcf(productA_ts) + ggtitle("ACF of sales")
+ggPacf(productA_ts) + ggtitle("PACF of sales")
 
-d_lavender_seeds <- diff(lavender_seeds_ts)
+d_productA_ts <- diff(productA_ts)
 
-ggAcf(d_lavender_seeds) + ggtitle("ACF")
-ggPacf(d_lavender_seeds) + ggtitle("PACF")
+ggAcf(d_productA_ts) + ggtitle("ACF")
+ggPacf(d_productA_ts) + ggtitle("PACF")
 
-ts_decompose(lavender_seeds_ts, type = "additive", showline = TRUE)
+ts_decompose(productA_ts, type = "additive", showline = TRUE)
 
-adf.test(lavender_seeds_ts)
-adf.test(lavender_seeds_ts, k=1)
-adf.test(lavender_seeds_ts, k=2)
+adf.test(productA_ts)
+adf.test(productA_ts, k=1)
+adf.test(productA_ts, k=2)
 
-pp.test(lavender_seeds_ts)
-pp.test(d_lavender_seeds)
+pp.test(productA_ts)
+pp.test(d_productA_ts)
 
-kpss.test(lavender_seeds_ts)
-kpss.test(d_lavender_seeds)
+kpss.test(productA_ts)
+kpss.test(d_productA_ts)
 
 # ARIMA modelling
 
-fit_arima_lavender <- auto.arima(lavender_seeds_ts)
-summary(fit_arima_lavender)
+fit_productA_ts <- auto.arima(productA_ts)
+summary(fit_productA_ts)
 
-extract_eq(fit_arima_lavender)
-
-checkresiduals(fit_arima_lavender)
-
-forecast(fit_arima_lavender, h = 14)
-f_testing <- lavender_seeds$Quantity[171:185]
-forecast <- data.frame(forecast(fit_arima_lavender, h = 14))
+forecast <- data.frame(forecast(fit_productA_ts, h = nrow(productA)-split_point))
 forecast <- forecast$Point.Forecast
-forecast <- data.frame(forecast)
+productA_testing <- productA_testing$Quantity
 
-mape(f_testing,forecast)
+mape(productA_testing,forecast)
 
-f_testing
+view(forecast)
 
+time_index <- 1:(nrow(productA)-split_point)
+
+df <- data.frame(time_index, productA_testing, forecast)
+
+plot(df$time_index, df$productA_testing, type = "l", col = "blue",
+     xlab = "Time Index",
+     ylab = "Values")
+lines(df$time_index, df$forecast, col = "red")
