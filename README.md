@@ -25,13 +25,13 @@ The sales data of Product A is stored in the file ProductA.csv. The dataset cont
 - Tests for stationarity (ADF, PP, and KPSS tests) are performed on the time series object and the differenced time series object.
 - The time series object is decomposed to understand its trend, seasonality, and residuals.
 
-## ARIMA Modelling
+###### ARIMA Modelling
 - An ARIMA model is fit on the training data set.
 - The model is used to forecast the sales for the testing data set.
 - The mean absolute percentage error (MAPE) between the actual sales and the forecasted sales is calculated.
 - A line plot is created to compare the actual and forecasted sales.
 
-## Results
+###### Results
 The results of the time series analysis can be found in the console after running the code. This includes the summary of the fitted model, evaluation metric Mean ABsolute Percentage Error (MAPE), forecast values and forecast plot. 
 
 ## Multivariate Regression in R
