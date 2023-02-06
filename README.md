@@ -62,12 +62,12 @@ The file for multivariate regression is 'ProductA_Dynamic_Regression.R'. This is
 ##### Libraries
 The following libraries are used in the project:
 
-- **'tidyverse'** for data manipulation
-- **'forecast'** for time series analysis and modeling
-- **'evobiR'** for sliding window calculation
-- **'tseries'** for time series analysis
-- **'urca'** for unit root testing
-- **'TSstudio'** for residual diagnostics
+- **'tidyverse'** 
+- **'forecast'** 
+- **'evobiR'**
+- **'tseries'** 
+- **'urca'** 
+- **'TSstudio'** 
 
 ##### Data Pre-processing
 The sales data, Google clicks data, and Facebook impressions data are read from respective CSV files. A sliding window is applied to calculate the mean of each variable over a 3-time step window, and the resulting series is split into a training set (80% of the data) and a test set (20% of the data). Time series objects are created for each variable using the ts() function from the base library. The sales time series and both predictor time series are tested for stationarity using the kpss.test() function from the tseries library.
