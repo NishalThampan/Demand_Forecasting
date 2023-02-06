@@ -34,4 +34,27 @@ The sales data of Product A is stored in the file ProductA.csv. The dataset cont
 ## Conclusion
 The ARIMA model provides a good fit to the time series data and the forecasted sales are in line with the actual sales. The MAPE value gives an idea of how accurate the forecast is.
 
+## Multivariate Regression in R
+This is another model that performs a multivariate regression of sales of "ProductA" on two predictor variables: google clicks and facebook impressions. These are two Digital Marketing KPIs that influence the sales of a product. Google clicks refers to the number of clicks associated with a particular Google Ads campaign that drove the sales of a particular product (here it is Product A). Similarly, Facebook Impressions refers to the number of impressions associated with a particular Facebook Ads campaign that drove the sales of a particular product. The file for this model is 'ProductA_Multivariate_Regression.R'. The implementation uses the following packages:
 
+- **'tidyverse'**
+- **'evobiR'**
+- **'MLmetrics'**
+- **'Metrics'**
+
+###### Dataset
+The code requires three data sets:
+
+"ProductA.csv" which contains sales quantity data.
+"ProductA_google_clicks.csv" which contains clicks data.
+"ProductA_fb_impressions.csv" which contains impressions data.
+
+##### Execution
+The code first loads the required packages and reads in the three data sets. Then, the data is cleaned using moving average and normalizing the predictor variables. The data sets are merged into a single data frame and split into training and testing sets.
+
+A multivariate regression model is fit using the "lm" function in R, with sales as the response variable and google clicks and facebook impressions as the predictor variables. The model summary is displayed and the model is used to make predictions on the testing data.
+
+Finally, three evaluation metrics (Mean Absolute Percentage Error (MAPE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE)) are calculated to assess the performance of the model.
+
+##### ontributing
+If you have any suggestions or improvements, feel free to create a pull request.
