@@ -1,3 +1,4 @@
+# Dynamic Regression
 
 library(tidyverse)
 library(forecast)
@@ -6,53 +7,32 @@ library(tseries)
 library(urca)
 library(TSstudio)
 
-setwd("C:/Users/user/Desktop/OneDrive - The University of Nottingham/Dissertation/TAOS/Data/csv_files")
+productA_sales <- read.csv("ProductA.csv")       # Read sales quantity from csv file
+productA_google_clicks <- read.csv("ProductA_google_clicks.csv") # Read clicks data from csv file
+productA_fb_impressions <- read.csv("ProductA_fb_impressions.csv") # Read impressions data from csv file
 
-lavender_seeds <- read.csv("lavender_seeds_quantity.csv") # Read sales quantity from csv file
-lavender_seeds_google <- read.csv("lavender_seeds_google.csv") # Read clicks data from csv file
-lavender_seeds_fb <- read.csv("lavender_seeds_fb.csv") # Read impressions data from csv file
-lavender_seeds_fb <- lavender_seeds_fb[1:212,]
+split_point <- floor(0.8 * nrow(productA_sales))
 
-lavender_seeds_clean <- SlidingWindow("mean",lavender_seeds$Quantity,3,1)
-lavender_seeds_clean <- lavender_seeds_clean[1:170]
-lavender_seeds_ts <- ts(lavender_seeds_clean, start = 1, frequency = 7)
+# Define time series object for sales 
+productA_sales <- SlidingWindow("mean",productA_sales$Quantity,3,1)
+productA_sales <- productA_sales[1:split_point]
+productA_sales_ts <- ts(productA_sales, start = 1, frequency = 7)
 
-lavender_seeds_google_clean <- SlidingWindow("mean",lavender_seeds_google$Clicks,3,1)
-lavender_seeds_google_clean <- lavender_seeds_google_clean[1:170]
-lavender_seeds_google_clean_norm <- lavender_seeds_google_clean/(max(lavender_seeds_google_clean)-min(lavender_seeds_google_clean))
-lavender_seeds_google_ts <- ts(lavender_seeds_google_clean_norm, start = 1, frequency = 7)
+# Cleaning variables using moving average and normalizing predictor variables
+productA_google_clicks <- SlidingWindow("mean",productA_google_clicks$Clicks,3,1)
+productA_google_clicks <- productA_google_clicks[1:split_point]
+productA_google_clicks <- productA_google_clicks/(max(productA_google_clicks)-min(productA_google_clicks))
 
-lavender_seeds_fb_clean <- SlidingWindow("mean",lavender_seeds_fb$Impressions,3,1)
-lavender_seeds_fb_clean <- lavender_seeds_fb_clean[1:170]
-lavender_seeds_fb_clean_norm <- lavender_seeds_fb_clean/(max(lavender_seeds_fb_clean)-min(lavender_seeds_fb_clean))
-lavender_seeds_fb_ts <- ts(lavender_seeds_fb_clean_norm, start = 1, frequency = 7)
+productA_fb_impressions <- SlidingWindow("mean",productA_fb_impressions$Impressions,3,1)
+productA_fb_impressions <- productA_fb_impressions[1:split_point]
+productA_fb_impressions <- productA_fb_impressions/(max(productA_fb_impressions)-min(productA_fb_impressions))
 
-kpss.test(lavender_seeds_google_ts)
+# Test for stationarity
+kpss.test(productA_sales_ts)
 
-fit_arima_lavender <- auto.arima(lavender_seeds_ts, xreg = cbind(lavender_seeds_google_ts,lavender_seeds_fb_ts), seasonal = TRUE)
-summary(fit_arima_lavender)
-checkresiduals(fit_arima_lavender)
+# Dynamic Regression Modelling
+fit_productA_sales <- auto.arima(productA_sales_ts, xreg = cbind(productA_google_clicks,productA_fb_impressions), seasonal = TRUE)
+summary(fit_productA_sales)
+checkresiduals(fit_productA_sales)
 
-fit_arima_lavender <- auto.arima(lavender_seeds_ts, xreg = lavender_seeds_google_ts)
-summary(fit_arima_lavender)
-
-clicks <- lavender_seeds_google$Clicks[171:184]
-clicks_norm <- clicks/(max(clicks)-min(clicks))
-impressions <- lavender_seeds_fb$Impressions[171:184]
-impressions_norm <- impressions/(max(impressions)-min(impressions))
-xreg <- data.frame(clicks_norm, impressions_norm)
-forecast(fit_arima_lavender ,h = 14, xreg=xreg)
-
-
-fit_arima_lavender <- auto.arima(lavender_seeds_ts, xreg = cbind(lavender_seeds_google_ts,lavender_seeds_fb_ts), seasonal = TRUE)
-
-summary(fit_arima_lavender)
-checkresiduals(fit_arima_lavender)
-
-clicks <- data.frame(lavender_seeds_google$Clicks)
-clicks <- clicks[171:184,]
-predict(fit_arima_lavender,n.ahead = 14, newxreg=clicks)
-
-
-forecast(fit_arima_lavender ,h = 3, xreg = cbind(113, 113, 113))
 
