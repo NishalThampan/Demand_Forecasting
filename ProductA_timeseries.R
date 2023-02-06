@@ -8,8 +8,6 @@ library(urca)
 library(TSstudio)
 library(Metrics)
 
-setwd("D:/Demand_Forecasting")
-
 productA <- read.csv("ProductA.csv") # Read sales quantity from csv file
 
 # Splitting of time-series data into training and testing set
