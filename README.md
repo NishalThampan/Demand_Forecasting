@@ -31,11 +31,11 @@ The sales data of Product A is stored in the file ProductA.csv. The dataset cont
 - The mean absolute percentage error (MAPE) between the actual sales and the forecasted sales is calculated.
 - A line plot is created to compare the actual and forecasted sales.
 
-## Conclusion
-The ARIMA model provides a good fit to the time series data and the forecasted sales are in line with the actual sales. The MAPE value gives an idea of how accurate the forecast is.
+## Results
+The results of the time series analysis can be found in the console after running the code. This includes the summary of the fitted model, evaluation metric Mean ABsolute Percentage Error (MAPE), forecast values and forecast plot. 
 
 ## Multivariate Regression in R
-This is another model that performs a multivariate regression of sales of "ProductA" on two predictor variables: google clicks and facebook impressions. These are two Digital Marketing KPIs that influence the sales of a product. Google clicks refers to the number of clicks associated with a particular Google Ads campaign that drove the sales of a particular product (here it is Product A). Similarly, Facebook Impressions refers to the number of impressions associated with a particular Facebook Ads campaign that drove the sales of a particular product. The file for this model is 'ProductA_Multivariate_Regression.R'. The implementation uses the following packages:
+The file for multivariate regression is 'ProductA_Multivariate_Regression.R'. This is another model that performs a multivariate regression of sales of "ProductA" on two predictor variables: google clicks and facebook impressions. These are two Digital Marketing KPIs that influence the sales of a product. Google clicks refers to the number of clicks associated with a particular Google Ads campaign that drove the sales of a particular product (here it is Product A). Similarly, Facebook Impressions refers to the number of impressions associated with a particular Facebook Ads campaign that drove the sales of a particular product. The implementation uses the following packages:
 
 - **'tidyverse'**
 - **'evobiR'**
@@ -57,7 +57,7 @@ A multivariate regression model is fit using the "lm" function in R, with sales 
 Finally, three evaluation metrics (Mean Absolute Percentage Error (MAPE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE)) are calculated to assess the performance of the model.
 
 ## Dynamic Regression Time Series Analysis
-This is a time series analysis project that uses dynamic regression to study the sales of a product and the relationship with two predictor variables (Google clicks and Facebook impressions).
+The file for multivariate regression is 'ProductA_Dynamic_Regression.R'. This is another time series model that uses dynamic regression to study the sales of a product and the relationship with two predictor variables (Google clicks and Facebook impressions).
 
 ##### Libraries
 The following libraries are used in the project:
