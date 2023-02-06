@@ -5,13 +5,13 @@ This repository contains implementations of various demand forecasting models th
 ## ARIMA Time Series Forecasting 
 The file for ARIMA time series forecasting is 'ProductA_timeseries.R'. The implementation uses the following packages:
 
-- **'tidyverse'**
-- **'forecast'**
-- **'evobiR'**
-- **'tseries'**
-- **'urca'**
-- **'TSstudio'**
-- **'Metrics'**
+- **'tidyverse'** for data manipulation
+- **'forecast'** for time series analysis and modeling
+- **'evobiR'** for sliding window calculation
+- **'tseries'** for time series analysis
+- **'urca'** for unit root testing
+- **'TSstudio'** for residual diagnostics
+- **'Metrics'** for calculating evaluation metrics such as Mean Absolute Percentage Error (MAPE), Root Mean Squared Error (RMSE) etc. 
 
 ###### Dataset
 The sales data of Product A is stored in the file ProductA.csv. The dataset contains the sales quantity of Product A. The data can be extracted from the Google Analytics dashboard of the corresponding E-Commerce website. 
@@ -56,5 +56,30 @@ A multivariate regression model is fit using the "lm" function in R, with sales 
 
 Finally, three evaluation metrics (Mean Absolute Percentage Error (MAPE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE)) are calculated to assess the performance of the model.
 
-##### ontributing
+## Dynamic Regression Time Series Analysis
+This is a time series analysis project that uses dynamic regression to study the sales of a product and the relationship with two predictor variables (Google clicks and Facebook impressions).
+
+##### Libraries
+The following libraries are used in the project:
+
+- **'tidyverse'** for data manipulation
+- **'forecast'** for time series analysis and modeling
+- **'evobiR'** for sliding window calculation
+- **'tseries'** for time series analysis
+- **'urca'** for unit root testing
+- **'TSstudio'** for residual diagnostics
+
+##### Data Pre-processing
+The sales data, Google clicks data, and Facebook impressions data are read from respective CSV files. A sliding window is applied to calculate the mean of each variable over a 3-time step window, and the resulting series is split into a training set (80% of the data) and a test set (20% of the data). Time series objects are created for each variable using the ts() function from the base library. The sales time series and both predictor time series are tested for stationarity using the kpss.test() function from the tseries library.
+
+##### Model Fitting
+The auto.arima() function from the forecast library is used to fit an ARIMA model to the sales time series with the two predictor variables as external regressors. The seasonal argument is set to TRUE to include a seasonal component in the model. The fitted model is stored in the object fit_productA_sales.
+
+##### Model Evaluation
+The summary() function is used to summarize the fitted model and the checkresiduals() function from the TSstudio library is used to check the residuals of the model.
+
+##### Results
+The results of the time series analysis can be found in the console after running the code. This includes the summary of the fitted model, residual diagnostics, and any other relevant information.
+
+##### Contributing
 If you have any suggestions or improvements, feel free to create a pull request.
